@@ -1,0 +1,1 @@
+Day one of AoC and I have already been **super** lazy in order to not have to use my brain. Hence part two. There is a million ways to do that better, but _thinking_ wasn't something I was vibing with over lunch. So here we are.
