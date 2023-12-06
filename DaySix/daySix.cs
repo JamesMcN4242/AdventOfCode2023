@@ -10,7 +10,7 @@ for (int i = 0; i < times.Count; i++)
 
 Console.WriteLine($"Part One: {multipliedWins}");
 
-// Part Two - Surprisingly no change required since it still solves in ~130ms.
+// Part Two - Surprisingly no change required since it still solves in ~130ms in debug mode, and ~30ms in release mode.
 var time = long.Parse(input[0].Replace(" ", ""));
 var dist = long.Parse(input[1].Replace(" ", ""));
 Console.WriteLine($"Part Two: {WinRange(time, dist)}");
