@@ -1,7 +1,11 @@
 var input = File.ReadAllLines("input.txt").Select(str => str.ToCharArray().ToList()).ToList();
 ExpandMap();
-var galaxies = GetAllGalaxyPositions();
+
+var galaxies = GetAllGalaxyPositions(1, 1);
 Console.WriteLine($"Part One: {GetStepsBetweenAllGalaxies()}");
+
+galaxies = GetAllGalaxyPositions(1000000 - 1, 1000000 - 1);
+Console.WriteLine($"Part Two: {GetStepsBetweenAllGalaxies()}");
 
 void ExpandMap()
 {
@@ -9,38 +13,46 @@ void ExpandMap()
     {
         if (input[i].All(ch => ch == '.'))
         {
-            input.Insert(i, new List<char>(input[i]));
+            input[i] = Array.ConvertAll(input[i].ToArray(), ch => 'V').ToList();
         }
     }
 
     for (int i = input[0].Count - 1; i >= 0; i--)
     {
-        if (input.All(chArr => chArr[i] == '.'))
+        if (input.All(chArr => chArr[i] == '.' || chArr[i] == 'V'))
         {
             for (int j = 0; j < input.Count; ++j)
             {
-                input[j].Insert(i, '.');
+                input[j][i] = 'H';
             }
         }
     }
 }
 
-List<(int x, int y)> GetAllGalaxyPositions()
+List<(long x, long y)> GetAllGalaxyPositions(long hVal, long vVal)
 {
-    var positions = new List<(int x, int y)>();
+    long hOffset = 0;
+    long vOffset = 0;
+    var positions = new List<(long x, long y)>();
+
     for (int i = 0; i < input.Count; ++i)
     {
+        hOffset = 0;
+
         for(int j = 0; j < input[i].Count; ++j)
         {
-            if (input[i][j] == '#') positions.Add((j, i));
+            if (input[i][j] == '#') positions.Add((hOffset + j, vOffset + i));
+            else if (input[i][j] == 'H') hOffset += hVal;
+            else if (input[i][j] == 'V') { vOffset += vVal; break; }
         }
     }
+
     return positions;
 }
 
-int GetStepsBetweenAllGalaxies()
+long GetStepsBetweenAllGalaxies()
 {
-    int steps = 0;
+    long steps = 0;
 
     for (int i = 0; i < galaxies.Count; ++i)
     {
